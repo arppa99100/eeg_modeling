@@ -40,10 +40,15 @@ fs = 250.0 #Frequency in Hz
 sample_time = dataset.shape[1]/fs #Total time for sample
 
 #Apply filters
+print("DC Filter:", enable_dc)
+print("Discrete Wavelet Transform:", enable_dwt)
+print("Fast Fourier Transform:", enable_fft)
+print("Applying filters...")
 dataset.flags['WRITEABLE'] = True
 for i in range(0,dataset.shape[0]):
   for j in range(0,dataset.shape[2]):
     if enable_dc:
+      dataset[i,:,j] = apply_dc_filter(dataset[i,:,j], fs, dc_lowcut, dc_highcut, dc_order, dc_type, dc_func_type)
     if enable_dwt:
       dataset[i,:,j] = apply_dwt_filter(dataset[i,:,j], dwt_type, dwt_level, dwt_thresh_func, dwt_thresh_type)
     if enable_fft:
@@ -70,6 +75,7 @@ valid_labels = labels[valid_index]
 train_dataset = dataset
 train_labels = labels
 
-print('Training:', train_dataset.shape, train_labels.shape)
-print('Validation:', valid_dataset.shape, valid_labels.shape)
-print('Testing:', test_dataset.shape, test_labels.shape)
+print("Finished applying filters. Data structure:")
+print("Training:", train_dataset.shape, train_labels.shape)
+print("Validation:", valid_dataset.shape, valid_labels.shape)
+print("Testing:", test_dataset.shape, test_labels.shape)
