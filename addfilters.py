@@ -3,8 +3,7 @@ import numpy as np
 from dataio import readdata, readdata2, readlabels, writedata
 from datafilters import apply_dc_filter, apply_dwt_filter, apply_stfft_filter
 
-#Hyperparams
-
+########### Hyperparams #########################################
 #DC Filter
 enable_dc = True
 dc_lowcut = 8.0 #Only get alpha and beta, most related to movement
@@ -30,6 +29,8 @@ fft_set_thresh = 0.0
 #Datasets Sizes (%)
 test_size = 0.20
 valid_size = 0.20
+
+###################################################################
 
 #Get unfiltered data
 dataset = readdata("sampledata")
