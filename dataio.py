@@ -6,20 +6,6 @@ def readdata(pathname):
   with open(pathname, "rb") as bytestream:
     #Check magic is 2049
     magic = _read32(bytestream)
-    cols = _read32(bytestream)
-    rows = _read32(bytestream)
-    samples = _read32(bytestream)
-    buf = bytestream.read(rows*cols*samples*dt_f32.itemsize)
-    dataset = np.frombuffer(buf, dtype=dt_f32)
-    dataset.shape = (samples, rows, cols)
-  return(dataset)
-
-#Fix this into just readdata
-def readdata2(pathname):
-  dt_f32 = np.dtype("<f4")
-  with open(pathname, "rb") as bytestream:
-    #Check magic is 2049
-    magic = _read32(bytestream)
     samples = _read32(bytestream)
     rows = _read32(bytestream)
     cols = _read32(bytestream)

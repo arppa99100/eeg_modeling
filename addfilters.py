@@ -1,6 +1,6 @@
 import numpy as np
 
-from dataio import readdata, readdata2, readlabels, writedata
+from dataio import readdata, readlabels, writedata
 from datafilters import apply_dc_filter, apply_dwt_filter, apply_stfft_filter
 
 ########### Hyperparams #########################################
