@@ -34,9 +34,10 @@ with open(testingpath+"/"+filename, "rb") as readstream:
   data = np.frombuffer(buf, dtype=dt_f32)
   data.shape = (max_rows, cols)
 
-
-min_thresh = -38000
-max_thresh = -12000
+min_thresh = -60000
+max_thresh = -10000
+#min_thresh = -38000
+#max_thresh = -12000
 for i in range(0,data.shape[1]):
   if max(data[:,i]) < max_thresh and min(data[:,i]) > min_thresh:
     electrodes[i] = True
