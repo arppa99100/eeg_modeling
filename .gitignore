@@ -3,4 +3,5 @@ __pycache__/
 curated/
 samples/
 examples/
+predicting/
 testing/
