@@ -1,11 +1,11 @@
-import os;
-import sys;
-import numpy as np;
+import os
+import sys
+import numpy as np
 from readbytes import _read8, _read32, _read_chunks
 
-#File Paths
-samplespath = "./samples"
-curatedpath = "./curated"
+path = os.path.abspath(os.path.join(__file__,"../"))
+samplespath = path + "/samples"
+curatedpath = path + "/curated"
 
 #Data Types
 dt_i8 = np.dtype("<u1")
@@ -16,7 +16,7 @@ dt_f32 = np.dtype("<f4")
 input_count = 0
 num_samples = 0
 num_channels = 8
-max_samples = 470
+max_samples = 360
 max_presamples = 120
 
 
@@ -81,3 +81,7 @@ with open(curatedpath+"/raw-inputs-nometa", "rb") as readstream, open(curatedpat
   writestream.write(np.array(metadata, dtype=dt_i32))
   writestream.write(readstream.read())
 os.remove(curatedpath+"/raw-inputs-nometa")
+
+print("Samples: ", num_samples)
+print("Rows: ", max_samples)
+print("Cols: ", num_channels)
