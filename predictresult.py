@@ -9,12 +9,12 @@ from datafilters import apply_dc_filter
 from sklearn.ensemble import RandomForestClassifier
 
 num_channels = 8
-max_rows = 470
+max_rows = 360
 masterfolder = "predicting"
 dt_f32 = np.dtype("<f4")
 
 #Read data from Hardware
-path = os.path.abspath(os.path.join(__file__,sys.argv[1]))
+path = os.path.abspath(os.path.join(__file__,"../"))
 testingpath = path + "/predicting/sample"
 filename = os.listdir(testingpath)[0]
 
@@ -25,9 +25,6 @@ with open(testingpath+"/"+filename, "rb") as readstream:
   buf = readstream.read(max_rows * cols * dt_f32.itemsize)
   data = np.frombuffer(buf, dtype=dt_f32)
   data.shape = (max_rows, cols)
-
-min_thresh = -60000
-max_thresh = -10000
 
 #DC Filter
 fs = 250
@@ -42,10 +39,11 @@ data.flags['WRITEABLE'] = True
 for i in range(0,data.shape[1]):
   if enable_dc:
     data[:,i] = apply_dc_filter(data[:,i], fs, dc_lowcut, dc_highcut, dc_order, dc_type, dc_func_type)
-data.shape = (data.shape[0], num_channels * max_rows)
+  data[:,i] = data[:,i]/np.linalg.norm(data[:,i])
+data.shape = (1, max_rows * num_channels)
 
 #Read Model
-with open('./predicting/eeg.model', 'rb') as readstream:
-  forest = pickle.load(readstream)
+with open(path + '/predicting/eeg.model', 'rb') as readstream:
+  ensemble = pickle.load(readstream)
 
-print(forest.predict(data))
+print(ensemble.predict(data)[0])
