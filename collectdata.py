@@ -46,15 +46,15 @@ for samplefolder in samples_folders:
     with open(path+"/sample/"+sample, "rb") as bytestream:
       #Check magic is 2049
       magic = _read32(bytestream)
-      cols = _read32(bytestream)
       rows = _read32(bytestream)
+      cols = _read32(bytestream)
       buf = bytestream.read(max_samples * cols * dt_f32.itemsize) #homogeneous size
       temp_sample_output.write(buf)
     with open(path+"/presample/"+sample, "rb") as bytestream:
       #Check magic is 2049
       magic = _read32(bytestream)
-      cols = _read32(bytestream)
       rows = _read32(bytestream)
+      cols = _read32(bytestream)
       buf = bytestream.read(max_presamples * cols * dt_f32.itemsize) #homogeneous size
       temp_presample_output.write(buf)
 
