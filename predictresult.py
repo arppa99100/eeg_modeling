@@ -16,7 +16,7 @@ dt_f32 = np.dtype("<f4")
 #Read data from Hardware
 path = os.path.abspath(os.path.join(__file__,"../"))
 testingpath = path + "/predicting/sample"
-filename = os.listdir(testingpath)[0]
+filename = "id_" + sys.argv[1].zfill(6)
 
 with open(testingpath+"/"+filename, "rb") as readstream:
   magic = _read32(readstream)

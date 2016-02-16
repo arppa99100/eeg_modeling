@@ -2,6 +2,7 @@
 __pycache__/
 curated/
 samples/
+samplessafe/
 examples/
 predicting/
 testing/
