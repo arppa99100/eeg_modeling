@@ -28,8 +28,8 @@ max_rows = 470
 
 with open(testingpath+"/"+filename, "rb") as readstream:
   magic = _read32(readstream)
-  cols = _read32(readstream)
   rows = _read32(readstream)
+  cols = _read32(readstream)
   buf = readstream.read(max_rows * cols * dt_f32.itemsize)
   data = np.frombuffer(buf, dtype=dt_f32)
   data.shape = (max_rows, cols)

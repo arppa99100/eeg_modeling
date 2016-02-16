@@ -14,6 +14,23 @@ def readdata(pathname):
     dataset.shape = (samples, rows, cols)
   return(dataset)
 
+def readdata2(pathname):
+  dt_f32 = np.dtype("<f4")
+  dataset = []
+  with open(pathname, "rb") as bytestream:
+    #Check magic is 2049
+    magic = _read32(bytestream)
+    num_tests = _read32(bytestream)
+    rows = _read32(bytestream)
+    cols = _read32(bytestream)
+    for i in range(0, num_tests):
+      samples = _read32(bytestream)
+      buf = bytestream.read(rows*cols*samples*dt_f32.itemsize)
+      dataset_temp = np.frombuffer(buf, dtype=dt_f32)
+      dataset_temp.shape = (samples, rows, cols)
+      dataset.append(dataset_temp)
+  return(dataset)
+
 def readlabels(pathname):
   dt_i8 = np.dtype("<u1")
   with open(pathname, "rb") as bytestream:
@@ -23,6 +40,21 @@ def readlabels(pathname):
     buf = bytestream.read(num_inputs*dt_i8.itemsize)
     labels = np.frombuffer(buf, dtype=dt_i8)
     labels.shape = (num_inputs)
+  return(labels)
+
+def readlabels2(pathname):
+  dt_i8 = np.dtype("<u1")
+  labels = []
+  with open(pathname, "rb") as bytestream:
+    #Check magic is 2049
+    magic = _read32(bytestream)
+    num_tests = _read32(bytestream)
+    for i in range(0, num_tests):
+      num_inputs = _read32(bytestream)
+      buf = bytestream.read(num_inputs*dt_i8.itemsize)
+      labels_temp = np.frombuffer(buf, dtype=dt_i8)
+      labels_temp.shape = (num_inputs)
+      labels.append(labels_temp)
   return(labels)
 
 def writedata(pathname, data):
