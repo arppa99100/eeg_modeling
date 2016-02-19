@@ -16,9 +16,8 @@ dt_f32 = np.dtype("<f4")
 #Read data from Hardware
 path = os.path.abspath(os.path.join(__file__,"../"))
 testingpath = path + "/predicting/sample"
-filename = "id_" + sys.argv[1].zfill(6)
 
-with open(testingpath+"/"+filename, "rb") as readstream:
+with open(testingpath+"/"+sys.argv[1], "rb") as readstream:
   magic = _read32(readstream)
   rows = _read32(readstream)
   cols = _read32(readstream)
