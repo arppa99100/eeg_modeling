@@ -9,22 +9,15 @@ from datafilters import apply_dc_filter
 dt_f32 = np.dtype("<f4")
 electrodes = [False, False, False, False, False, False, False, False]
 
-#Gather data from Hardware
-#Get data from hardware
-#fileloc = "./../lib/start_stream.py"
-#dumploc = "../../modeling"
 masterfolder = "testing"
 samplefolder = "sample"
-#sampletime = 2 #sec
-#sampleid = 0
-#os.system("python3 ./../lib/start_stream.py ../../modeling/ 2 testing sample 0")
 
-#Read data from Hardware
-path = os.path.abspath(os.path.join(__file__,sys.argv[1]))
+#Read raw data
+path = os.path.abspath(os.path.join(__file__,"../"))
 testingpath = path + "/"+ masterfolder + "/" + samplefolder
 filename = os.listdir(testingpath)[0]
 
-max_rows = 470
+max_rows = 260
 
 with open(testingpath+"/"+filename, "rb") as readstream:
   magic = _read32(readstream)
@@ -56,6 +49,8 @@ for i in range(0,data.shape[1]):
   if enable_dc:
     data[:,i] = apply_dc_filter(data[:,i], fs, dc_lowcut, dc_highcut, dc_order, dc_type, dc_func_type)
 
+#data = np.delete(data, range(data.shape[0] - 25, data.shape[0]), 0)
+#data = np.delete(data, range(0,25), 0)
 np.savetxt(path + "/../public/data/test.csv", data, delimiter=",",newline="\n")
 
 with open(path+"/testing/out.log", "w") as writestream:
