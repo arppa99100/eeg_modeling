@@ -15,15 +15,16 @@ dt_f32 = np.dtype("<f4")
 #Vars
 input_count = 0
 num_channels = 8
-max_samples = 360
-max_presamples = 120
+max_samples = 480
+#max_samples = 360
+#max_presamples = 120
 
 
 
 samples_folders = sorted(os.listdir(samplespath))
 for samplefolder in samples_folders:
   #Open Files to use
-  temp_presample_output = open(curatedpath+"/raw-presamples-nometa", "wb")
+  #temp_presample_output = open(curatedpath+"/raw-presamples-nometa", "wb")
   temp_sample_output = open(curatedpath+"/raw-samples-nometa", "wb")    
   temp_input_output = open(curatedpath+"/raw-inputs-nometa", "wb")
   
@@ -51,14 +52,14 @@ for samplefolder in samples_folders:
       cols = _read32(bytestream)
       buf = bytestream.read(max_samples * cols * dt_f32.itemsize) #homogeneous size
       temp_sample_output.write(buf)
-    with open(path+"/presample/"+sample, "rb") as bytestream:
+    #with open(path+"/presample/"+sample, "rb") as bytestream:
       #Check magic is 2049
-      magic = _read32(bytestream)
-      rows = _read32(bytestream)
-      cols = _read32(bytestream)
-      buf = bytestream.read(max_presamples * cols * dt_f32.itemsize) #homogeneous size
-      temp_presample_output.write(buf)
-  temp_presample_output.close()
+      #magic = _read32(bytestream)
+      #rows = _read32(bytestream)
+      #cols = _read32(bytestream)
+      #buf = bytestream.read(max_presamples * cols * dt_f32.itemsize) #homogeneous size
+      #temp_presample_output.write(buf)
+  #temp_presample_output.close()
   temp_sample_output.close()
   temp_input_output.close()
   metadata = [num_samples]
@@ -66,15 +67,15 @@ for samplefolder in samples_folders:
     writestream.write(np.array(metadata, dtype=dt_i32))
     for chunk in _read_chunks(readstream):
       writestream.write(chunk)
-  with open(curatedpath+"/raw-presamples-nometa", "rb") as readstream, open(curatedpath+"/raw-presamples-temp", "ab") as writestream:
-    writestream.write(np.array(metadata, dtype=dt_i32))
-    for chunk in _read_chunks(readstream):
-      writestream.write(chunk)
+  #with open(curatedpath+"/raw-presamples-nometa", "rb") as readstream, open(curatedpath+"/raw-presamples-temp", "ab") as writestream:
+    #writestream.write(np.array(metadata, dtype=dt_i32))
+    #for chunk in _read_chunks(readstream):
+      #writestream.write(chunk)
   with open(curatedpath+"/raw-inputs-nometa", "rb") as readstream, open(curatedpath+"/raw-inputs-temp", "ab") as writestream:
     writestream.write(np.array(metadata, dtype=dt_i32))
     writestream.write(readstream.read())
   os.remove(curatedpath+"/raw-samples-nometa")
-  os.remove(curatedpath+"/raw-presamples-nometa")
+  #os.remove(curatedpath+"/raw-presamples-nometa")
   os.remove(curatedpath+"/raw-inputs-nometa")
 
 metadata = [2049, len(samples_folders), max_samples, num_channels]
@@ -84,12 +85,12 @@ with open(curatedpath+"/raw-samples-temp", "rb") as readstream, open(curatedpath
     writestream.write(chunk)
 os.remove(curatedpath+"/raw-samples-temp")
 
-metadata = [2049, len(samples_folders), max_presamples, num_channels]
-with open(curatedpath+"/raw-presamples-temp", "rb") as readstream, open(curatedpath+"/raw-presamples", "wb") as writestream:
-  writestream.write(np.array(metadata, dtype=dt_i32))
-  for chunk in _read_chunks(readstream):
-    writestream.write(chunk)
-os.remove(curatedpath+"/raw-presamples-temp")
+#metadata = [2049, len(samples_folders), max_presamples, num_channels]
+#with open(curatedpath+"/raw-presamples-temp", "rb") as readstream, open(curatedpath+"/raw-presamples", "wb") as writestream:
+  #writestream.write(np.array(metadata, dtype=dt_i32))
+  #for chunk in _read_chunks(readstream):
+    #writestream.write(chunk)
+#os.remove(curatedpath+"/raw-presamples-temp")
 
 metadata = [2049, len(samples_folders)]
 with open(curatedpath+"/raw-inputs-temp", "rb") as readstream, open(curatedpath+"/raw-inputs", "wb") as writestream:

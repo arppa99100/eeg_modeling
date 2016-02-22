@@ -38,8 +38,8 @@ def wvd(audioFile, t=None, N=None, trace=0, make_analytic=True):
         raise ValueError("Time indices t must have one row.")
     if trow != 1:
         raise ValueError("Time indicies t must have one row.")
-    elif nextpow2(N) != N:
-        print("For a faster computation, number of Frequency bins N should be a power of two.")
+    #elif nextpow2(N) != N:
+        #print("For a faster computation, number of Frequency bins N should be a power of two.")
     
     tfr = zeros([N, tcol], dtype="complex")
     if trace: print("Wigner-Ville distribution"),
