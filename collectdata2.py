@@ -15,8 +15,8 @@ dt_f32 = np.dtype("<f4")
 #Vars
 input_count = 0
 num_channels = 8
-max_samples = 480
-#max_samples = 360
+#max_samples = 480
+max_samples = 360
 #max_presamples = 120
 
 

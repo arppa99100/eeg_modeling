@@ -2,7 +2,10 @@
 __pycache__/
 curated/
 samples/
+samples-no-mov/
+samples-with-mov/
 samplessafe/
 examples/
 predicting/
 testing/
+visualizing/
